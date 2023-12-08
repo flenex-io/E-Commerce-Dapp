@@ -3,8 +3,6 @@ const { expect } = require("chai");
 const tokens = (n) => {
   return ethers.utils.parseUnits(n.toString(), "ether");
 };
-
-// Global constants for listing an item...
 const ID = 1;
 const NAME = "Shoes";
 const CATEGORY = "Clothing";
@@ -19,10 +17,8 @@ describe("EKart", () => {
   let deployer, buyer;
 
   beforeEach(async () => {
-    // Setup accounts
     [deployer, buyer] = await ethers.getSigners();
 
-    // Deploy contract
     const EKart = await ethers.getContractFactory("EKart");
     eKart = await EKart.deploy();
   });
@@ -37,7 +33,6 @@ describe("EKart", () => {
     let transaction;
 
     beforeEach(async () => {
-      // List a item
       transaction = await eKart
         .connect(deployer)
         .list(ID, NAME, CATEGORY, IMAGE, COST, RATING, STOCK);
@@ -65,13 +60,10 @@ describe("EKart", () => {
     let transaction;
 
     beforeEach(async () => {
-      // List a item
       transaction = await eKart
         .connect(deployer)
         .list(ID, NAME, CATEGORY, IMAGE, COST, RATING, STOCK);
       await transaction.wait();
-
-      // Buy a item
       transaction = await eKart.connect(buyer).buy(ID, { value: COST });
       await transaction.wait();
     });
@@ -102,20 +94,14 @@ describe("EKart", () => {
     let balanceBefore;
 
     beforeEach(async () => {
-      // List a item
       let transaction = await eKart
         .connect(deployer)
         .list(ID, NAME, CATEGORY, IMAGE, COST, RATING, STOCK);
       await transaction.wait();
 
-      // Buy a item
       transaction = await eKart.connect(buyer).buy(ID, { value: COST });
       await transaction.wait();
-
-      // Get Deployer balance before
       balanceBefore = await ethers.provider.getBalance(deployer.address);
-
-      // Withdraw
       transaction = await eKart.connect(deployer).withdraw();
       await transaction.wait();
     });
