@@ -44,7 +44,6 @@ contract EKart {
         uint256 _rating,
         uint256 _stock
     ) public onlyOwner {
-        // Create Item
         Item memory item = Item(
             _id,
             _name,
