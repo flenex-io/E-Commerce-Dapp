@@ -1,3 +1,3 @@
 # ECommerce Dapp
 
-## Currently in construction 
+## Currently in Development 
